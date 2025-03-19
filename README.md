@@ -16,7 +16,7 @@ This project is a solution to the Scandiweb Full Stack Developer Test Task, aimi
 ## Technologies Used
 
 - **Backend**: PHP 8.1+, MySQL 5.6+, GraphQL
-- **Frontend**: React, JavaScript, CSS
+- **Frontend**: React, JavaScript, tailwindCSS
 
 ## Project Structure
 
