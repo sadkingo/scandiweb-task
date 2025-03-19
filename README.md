@@ -10,7 +10,6 @@ This project is a solution to the Scandiweb Full Stack Developer Test Task, aimi
   - [Backend Setup](#backend-setup)
   - [Frontend Setup](#frontend-setup)
 - [Usage](#usage)
-- [Contributing](#contributing)
 
 ## Technologies Used
 
