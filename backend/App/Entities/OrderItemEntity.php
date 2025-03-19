@@ -185,28 +185,4 @@ class OrderItemEntity
         $this->selectedAttributes = $selectedAttributes;
         return $this;
     }
-
-    /**
-     * Add a selected attribute item to this order item
-     *
-     * @param AttributeItemsEntity $attributeItem The attribute item to add
-     * @return self
-     */
-    public function addSelectedAttribute(AttributeItemsEntity $attributeItem): self
-    {
-        //TODO: make addSelectedAttribute
-        return $this;
-    }
-
-    /**
-     * Remove a selected attribute item from this order item
-     *
-     * @param AttributeItemsEntity $attributeItem The attribute item to remove
-     * @return self
-     */
-    public function removeSelectedAttribute(AttributeItemsEntity $attributeItem): self
-    {
-//TODO: remove attributes
-        return $this;
-    }
 }
