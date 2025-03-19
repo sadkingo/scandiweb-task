@@ -10,10 +10,10 @@ import { ERROR_MESSAGES } from '@/config';
  * Interface for standardized error response
  */
 export interface ErrorResponse {
-  message: string;
-  code?: string;
-  technical?: string;
-  isNetworkError?: boolean;
+    message: string;
+    code?: string;
+    technical?: string;
+    isNetworkError?: boolean;
 }
 
 /**
@@ -22,35 +22,35 @@ export interface ErrorResponse {
  * @returns Standardized error response
  */
 export const processApolloError = (error?: ApolloError): ErrorResponse => {
-  if (!error) {
-    return {message: ''};
-  }
+    if (!error) {
+        return {message: ''};
+    }
 
-  // Handle network errors
-  if (error.networkError) {
+    // Handle network errors
+    if (error.networkError) {
+        return {
+            message: ERROR_MESSAGES.NETWORK_ERROR,
+            technical: error.networkError.message,
+            isNetworkError: true,
+            code: 'NETWORK_ERROR',
+        };
+    }
+
+    // Handle GraphQL errors
+    if (error.graphQLErrors?.length) {
+        const graphQLError = error.graphQLErrors[0];
+        return {
+            message: `GraphQL error: ${graphQLError.message}`,
+            code: graphQLError.extensions?.code as string || 'GRAPHQL_ERROR',
+            technical: JSON.stringify(graphQLError.extensions || {}),
+        };
+    }
+
+    // Fallback for other errors
     return {
-      message: ERROR_MESSAGES.NETWORK_ERROR,
-      technical: error.networkError.message,
-      isNetworkError: true,
-      code: 'NETWORK_ERROR',
+        message: error.message || ERROR_MESSAGES.GENERAL_ERROR,
+        code: 'UNKNOWN_ERROR',
     };
-  }
-
-  // Handle GraphQL errors
-  if (error.graphQLErrors?.length) {
-    const graphQLError = error.graphQLErrors[0];
-    return {
-      message: `GraphQL error: ${graphQLError.message}`,
-      code: graphQLError.extensions?.code as string || 'GRAPHQL_ERROR',
-      technical: JSON.stringify(graphQLError.extensions || {}),
-    };
-  }
-
-  // Fallback for other errors
-  return {
-    message: error.message || ERROR_MESSAGES.GENERAL_ERROR,
-    code: 'UNKNOWN_ERROR',
-  };
 };
 
 /**
@@ -59,19 +59,19 @@ export const processApolloError = (error?: ApolloError): ErrorResponse => {
  * @returns Standardized error response
  */
 export const processGenericError = (error: unknown): ErrorResponse => {
-  if (error instanceof Error) {
-    return {
-      message: error.message || ERROR_MESSAGES.GENERAL_ERROR,
-      technical: error.stack,
-      code: 'JS_ERROR',
-    };
-  }
+    if (error instanceof Error) {
+        return {
+            message: error.message || ERROR_MESSAGES.GENERAL_ERROR,
+            technical: error.stack,
+            code: 'JS_ERROR',
+        };
+    }
 
-  return {
-    message: ERROR_MESSAGES.GENERAL_ERROR,
-    technical: String(error),
-    code: 'UNKNOWN_ERROR',
-  };
+    return {
+        message: ERROR_MESSAGES.GENERAL_ERROR,
+        technical: String(error),
+        code: 'UNKNOWN_ERROR',
+    };
 };
 
 /**
@@ -80,13 +80,13 @@ export const processGenericError = (error: unknown): ErrorResponse => {
  * @param context - Additional context information
  */
 export const logError = (error: unknown, context?: Record<string, unknown>): void => {
-  console.error('Application error:', error);
+    console.error('Application error:', error);
 
-  if (context) {
-    console.error('Error context:', context);
-  }
+    if (context) {
+        console.error('Error context:', context);
+    }
 
-  if (error instanceof Error && error.stack) {
-    console.error('Stack trace:', error.stack);
-  }
+    if (error instanceof Error && error.stack) {
+        console.error('Stack trace:', error.stack);
+    }
 };

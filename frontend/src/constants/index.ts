@@ -6,7 +6,7 @@
 
 // Local storage keys
 export const STORAGE_KEYS = {
-  CART_ITEMS: 'scandiweb_cart_items',
-  SELECTED_CURRENCY: 'scandiweb_selected_currency',
-  AUTH_TOKEN: 'scandiweb_auth_token',
+    CART_ITEMS: 'scandiweb_cart_items',
+    SELECTED_CURRENCY: 'scandiweb_selected_currency',
+    AUTH_TOKEN: 'scandiweb_auth_token',
 };

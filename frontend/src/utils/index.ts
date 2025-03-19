@@ -11,11 +11,11 @@ import { STORAGE_KEYS } from '@/constants';
  * @param data - Data to store
  */
 export const saveToLocalStorage = <T>(key: string, data: T): void => {
-  try {
-    localStorage.setItem(key, JSON.stringify(data));
-  } catch (error) {
-    console.error(`Error saving to localStorage: ${error}`);
-  }
+    try {
+        localStorage.setItem(key, JSON.stringify(data));
+    } catch (error) {
+        console.error(`Error saving to localStorage: ${error}`);
+    }
 };
 
 /**
@@ -23,7 +23,7 @@ export const saveToLocalStorage = <T>(key: string, data: T): void => {
  * @param cartItems - Cart items to save
  */
 export const saveCartItems = <T>(cartItems: T[]): void => {
-  saveToLocalStorage(STORAGE_KEYS.CART_ITEMS, cartItems);
+    saveToLocalStorage(STORAGE_KEYS.CART_ITEMS, cartItems);
 };
 
 /**
@@ -31,11 +31,11 @@ export const saveCartItems = <T>(cartItems: T[]): void => {
  * @returns Cart items or empty array
  */
 export function getCartItems<T>(): T[] {
-  try {
-    const items = localStorage.getItem(STORAGE_KEYS.CART_ITEMS);
-    return items ? JSON.parse(items) : [];
-  } catch (error) {
-    console.error('Error getting cart items from localStorage:', error);
-    return [];
-  }
+    try {
+        const items = localStorage.getItem(STORAGE_KEYS.CART_ITEMS);
+        return items ? JSON.parse(items) : [];
+    } catch (error) {
+        console.error('Error getting cart items from localStorage:', error);
+        return [];
+    }
 }
