@@ -11,7 +11,6 @@ This project is a solution to the Scandiweb Full Stack Developer Test Task, aimi
   - [Frontend Setup](#frontend-setup)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Technologies Used
 
