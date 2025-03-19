@@ -5,6 +5,7 @@ namespace App\Types;
 
 use App\Entities\AttributeItemsEntity;
 use App\Entities\ProductEntity;
+use App\Entities\GalleryEntity;
 use App\Models\Product;
 use Config\DoctrineManager;
 use GraphQL\Type\Definition\Type;
@@ -24,6 +25,7 @@ class ProductType extends BaseType
                 'resolve' => function ($args) {
                     return array_map(function ($image) {
                         return $image->getImageurl();
+                        return $image->getImageUrl();
                     }, $args['gallery']->toArray());
                 }
             ],
