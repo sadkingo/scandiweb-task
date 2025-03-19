@@ -23,8 +23,7 @@ class ProductType extends BaseType
             'gallery' => [
                 'type' => Type::listOf(Type::string()),
                 'resolve' => function ($args) {
-                    return array_map(function ($image) {
-                        return $image->getImageurl();
+                    return array_map(function (GalleryEntity $image) {
                         return $image->getImageUrl();
                     }, $args['gallery']->toArray());
                 }
