@@ -1,5 +1,3 @@
-// Types for order-related operations
-
 /**
  * Input type for order product items
  */
