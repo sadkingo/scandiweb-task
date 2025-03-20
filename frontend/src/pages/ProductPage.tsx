@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ProductAttribute } from "@/types/Product";
 import { useParams } from 'react-router-dom';
 import parse from "html-react-parser";
 import DOMPurify from 'dompurify';
@@ -91,54 +92,28 @@ const ProductPage: React.FC = () => {
 
     function renderSubmissionForm() {
         return <div>
-            <h2 className="text-xl font-medium text-gray-500 mb-1">{product!.brand}</h2>
-            <h1 className="text-3xl font-medium mb-1">{product!.name}</h1>
-            <p className="text-xl font-bold mb-8">
-                {product!.price.currency.symbol}{parseFloat(product!.price.amount).toFixed(2)}
-            </p>
-
+            {renderFormHeader()}
             {/* Render each attribute */}
-            {product!.attributes.map(attribute => (
-                <div
-                    key={attribute.name}
-                    className="mb-6"
-                    data-testid={`product-attribute-${attribute.name.toLowerCase()}`}
-                >
-                    <h3 className="font-medium uppercase mb-2">{attribute.name}:</h3>
-                    <div className="flex flex-wrap gap-2">
-                        {attribute.items?.map(item => {
-                            const isSelected = selectedAttributes[attribute.name]?.name === item.value;
+            {product!.attributes.map(renderAttributes)}
+            {renderSubmitButton()}
+            {renderDescription()}
+        </div>;
+    }
 
-                            // Render color swatches for color attributes
-                            if (attribute.type === 'swatch' || attribute.name.toLowerCase().includes('color')) {
-                                return (
-                                    <button
-                                        key={item.value}
-                                        className={`w-8 h-8 cursor-pointer ${isSelected ? 'ring-2 ring-offset-2 ring-green-500' : ''}`}
-                                        style={{backgroundColor: item.value}}
-                                        onClick={() => handleAttributeChange(attribute.name, item.value, item.id)}
-                                        data-testid={`product-attribute-${attribute.name.toLowerCase()}-${item.displayValue}`}
-                                        title={item.displayValue}
-                                    />
-                                );
-                            }
+    function renderFormHeader() {
+        return (
+            <>
+                <h2 className="text-xl font-medium text-gray-500 mb-1">{product!.brand}</h2>
+                <h1 className="text-3xl font-medium mb-1">{product!.name}</h1>
+                <p className="text-xl font-bold mb-8">
+                    {product!.price.currency.symbol}{parseFloat(product!.price.amount).toFixed(2)}
+                </p>
+            </>
+        )
+    }
 
-                            // Render text buttons for other attributes
-                            return (
-                                <button
-                                    key={item.value}
-                                    className={`min-w-10 h-10 px-3 flex items-center justify-center border cursor-pointer ${isSelected ? 'bg-black text-white' : 'hover:bg-gray-100'}`}
-                                    onClick={() => handleAttributeChange(attribute.name, item.value, item.id)}
-                                    data-testid={`product-attribute-${attribute.name.toLowerCase()}-${item.displayValue}`}
-                                >
-                                    {item.displayValue}
-                                </button>
-                            );
-                        })}
-                    </div>
-                </div>
-            ))}
-
+    function renderSubmitButton() {
+        return (
             <button
                 className={`w-full py-3 font-medium ${(product!.inStock && isAllAttributesSelected) ? 'bg-green-500 text-white cursor-pointer' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
                 onClick={handleAddToCart}
@@ -147,7 +122,11 @@ const ProductPage: React.FC = () => {
             >
                 {product!.inStock ? 'ADD TO CART' : 'OUT OF STOCK'}
             </button>
+        )
+    }
 
+    function renderDescription() {
+        return (
             <div className="mt-8">
                 <div className="text-wrap w-full truncate" data-testid="product-description">
                     {parse(DOMPurify.sanitize(handleDescriptionShowMore()))}
@@ -162,9 +141,51 @@ const ProductPage: React.FC = () => {
                     </button>
                 )}
             </div>
-        </div>;
+        );
     }
 
+    function renderAttributes(attribute: ProductAttribute) {
+        return (
+            <div
+                key={attribute.name}
+                className="mb-6"
+                data-testid={`product-attribute-${attribute.name.toLowerCase()}`}
+            >
+                <h3 className="font-medium uppercase mb-2">{attribute.name}:</h3>
+                <div className="flex flex-wrap gap-2">
+                    {attribute.items?.map(item => {
+                        const isSelected = selectedAttributes[attribute.name]?.name === item.value;
+
+                        // Render color swatches for color attributes
+                        if (attribute.type === 'swatch' || attribute.name.toLowerCase().includes('color')) {
+                            return (
+                                <button
+                                    key={item.value}
+                                    className={`w-8 h-8 cursor-pointer ${isSelected ? 'ring-2 ring-offset-2 ring-green-500' : ''}`}
+                                    style={{backgroundColor: item.value}}
+                                    onClick={() => handleAttributeChange(attribute.name, item.value, item.id)}
+                                    data-testid={`product-attribute-${attribute.name.toLowerCase()}-${item.displayValue}`}
+                                    title={item.displayValue}
+                                />
+                            );
+                        }
+
+                        // Render text buttons for other attributes
+                        return (
+                            <button
+                                key={item.value}
+                                className={`min-w-10 h-10 px-3 flex items-center justify-center border cursor-pointer ${isSelected ? 'bg-black text-white' : 'hover:bg-gray-100'}`}
+                                onClick={() => handleAttributeChange(attribute.name, item.value, item.id)}
+                                data-testid={`product-attribute-${attribute.name.toLowerCase()}-${item.displayValue}`}
+                            >
+                                {item.displayValue}
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }
 };
 
 export default ProductPage;
