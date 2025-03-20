@@ -1,9 +1,9 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Navigation from './components/Navigation';
-import { ROUTES } from './config';
-import { useCategories } from './hooks/useCategories';
-import Loader from "./components/UI/Loader";
+import Navigation from '@components/Navigation';
+import { ROUTES } from '@/config';
+import { useCategories } from '@hooks/useCategories';
+import Loader from "@components/UI/Loader";
 
 // Lazy load page components for better performance
 const CategoryPage = lazy(() => import('@/pages/CategoryPage'));
