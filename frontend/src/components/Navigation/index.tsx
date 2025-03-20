@@ -1,21 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Cart } from '@components/Cart';
 import { useCartStore } from '@store/cartStore';
 import NavLink from '@components/UI/NavLink';
 import CartIcon from '@components/UI/CartIcon';
 import { useCategories } from '@hooks/useCategories';
-import useClickOutside from "@hooks/useClickOutside.ts";
 import logo from '@images/logo.png';
-import useShowCartOnAdd from "@hooks/useShowCartOnAdd.ts";
 
 export const Navigation: React.FC = () => {
     const [showCart, setShowCart] = useState(false);
     const {clearLastAddedItem, totalItems, lastAddedItem} = useCartStore(state => state);
+    const cartRef = useRef<HTMLDivElement>(null);
     const {categories, loading: categoriesLoading} = useCategories();
 
-    const cartRef = useClickOutside<HTMLDivElement>(() => setShowCart(false));
-    useShowCartOnAdd({lastAddedItem, setShowCart, clearLastAddedItem});
+    // Close cart when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (cartRef.current && !cartRef.current.contains(event.target as Node) && showCart) {
+                setShowCart(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showCart]);
+
+    //show cart when add item
+    useEffect(() => {
+        if (lastAddedItem) {
+            setShowCart(true);
+            clearLastAddedItem();
+        }
+    }, [lastAddedItem]);
 
     return (
         <>
