@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, PersistOptions } from 'zustand/middleware';
 import { STORAGE_KEYS } from '@/constants';
 import { saveCartItems, getCartItems } from '@/utils';
-import { Attribute } from "@/types/graphql.ts";
+import { Attribute } from "@/types/Attribute";
 
 /**
  * Interface for cart item attributes
