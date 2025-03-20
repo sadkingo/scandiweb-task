@@ -3,7 +3,7 @@ import { useAllProducts } from '@hooks/useProduct';
 import ProductCard from '@components/ProductCard';
 import Loader from "@components/UI/Loader";
 import { ApolloError } from "@apollo/client";
-import { Product } from "@/types/graphql.ts";
+import { Product } from "@/types/Product";
 
 interface CategoryPageProps {
     category: string;

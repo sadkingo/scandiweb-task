@@ -1,6 +1,6 @@
 import React from "react";
 import { CartItem, useCartStore } from "@store/cartStore.ts";
-import { Attribute, AttributeItem } from "@/types/graphql";
+import { Attribute, AttributeItem } from "@/types/Attribute";
 
 interface CartProductProps {
     product: CartItem,

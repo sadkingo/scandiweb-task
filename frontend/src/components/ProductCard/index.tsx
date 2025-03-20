@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Product } from '@/types/graphql';
+import { Product } from '@/types/Product';
 import { useCartStore } from '@store/cartStore';
 
 interface ProductCardProps {
